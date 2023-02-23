@@ -1,7 +1,10 @@
 import pygame
 import sys
+import random
 import os
 pygame.init()
+
+cars = ["cop1.png", "car3.png", "car4.png", "car5.png", "car6.png"]
 
 width, height = 1024, 1024
 window = pygame.display.set_mode((width, height))
@@ -39,19 +42,41 @@ class Background(pygame.sprite.Sprite):
 # создадим группу, содержащую все спрайты
 all_sprites = pygame.sprite.Group()
 
+all_sprites2 = pygame.sprite.Group()
 # создадим спрайт
 sprite = pygame.sprite.Sprite()
-#bg_img = pygame.sprite.Sprite()
+Cars = pygame.sprite.Sprite()
 # определим его вид
 sprite.image = load_image("car.png")
-#bg_img.image = load_image("fon.png")
+a = random.choice(cars)
+Cars.image = load_image(a)
 # и размеры
-#bg_img.rect = bg_img.image.get_rect()
+Cars.rect = Cars.image.get_rect()
 sprite.rect = sprite.image.get_rect()
 # добавим спрайт в группу
-#all_sprites.add(bg_img)
+all_sprites2.add(Cars)
 all_sprites.add(sprite)
 
+if a == cars[1]:
+    Cars.image = load_image(a)
+    Cars.rect.x = 250
+    Cars.rect.y = -560
+if a == cars[0]:
+    Cars.image = load_image(a)
+    Cars.rect.x = -50
+    Cars.rect.y = -560
+if a == cars[2]:
+    Cars.image = load_image(a)
+    Cars.rect.x = 140
+    Cars.rect.y = -560
+if a == cars[3]:
+    Cars.image = load_image(a)
+    Cars.rect.x = 0
+    Cars.rect.y = -560
+if a == cars[4]:
+    Cars.image = load_image(a)
+    Cars.rect.x = 100
+    Cars.rect.y = -560
 sprite.rect.x = 550
 sprite.rect.y = 580
 
@@ -69,6 +94,7 @@ if __name__ == '__main__':
         group.update()
         group.draw(window)
         all_sprites.draw(window)
+        all_sprites2.draw(window)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -82,15 +108,41 @@ if __name__ == '__main__':
                     right = False
                 if event.key == pygame.K_LEFT:
                     left = False
-        if sprite.rect.x == 780:
+        if Cars.rect.y != 700:
+            Cars.rect.y += 5
+        if Cars.rect.y == 700:
+            Cars.rect = Cars.image.get_rect()
+            a = random.choice(cars)
+            if a == cars[1]:
+                Cars.image = load_image(a)
+                Cars.rect.x = 250
+                Cars.rect.y = -560
+            if a == cars[0]:
+                Cars.image = load_image(a)
+                Cars.rect.x = -50
+                Cars.rect.y = -560
+            if a == cars[2]:
+                Cars.image = load_image(a)
+                Cars.rect.x = 140
+                Cars.rect.y = -560
+            if a == cars[3]:
+                Cars.image = load_image(a)
+                Cars.rect.x = 0
+                Cars.rect.y = -560
+            if a == cars[4]:
+                Cars.image = load_image(a)
+                Cars.rect.x = 100
+                Cars.rect.y = -560
+            all_sprites2.draw(window)
+        if sprite.rect.x == 790:
             right = False
         if sprite.rect.x == -20:
             left = False
         if right is True:
-            sprite.rect.x += 10
+            sprite.rect.x += 3
             all_sprites.update()
         if left is True:
-            sprite.rect.x -= 10
+            sprite.rect.x -= 3
             all_sprites.update()
         all_sprites.update()
         pygame.display.update()
