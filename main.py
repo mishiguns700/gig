@@ -189,6 +189,18 @@ if __name__ == '__main__':
                     right = False
                 if event.key == pygame.K_LEFT:
                     left = False
+        if Cars.rect.right >= sprite.rect.right and \
+                Cars.rect.left <= sprite.rect.left and \
+                Cars.rect.bottom >= sprite.rect.bottom and \
+                Cars.rect.top <= sprite.rect.top:
+            running = False
+        if Cars_r.rect.right >= sprite.rect.right and \
+                Cars_r.rect.left <= sprite.rect.left and \
+                Cars_r.rect.bottom >= sprite.rect.bottom and \
+                Cars_r.rect.top <= sprite.rect.top:
+            running = False
+        if Cars_r.rect.top > sprite.rect.top:
+            running = False
         if Cars_r.rect.y != 700:
             Cars_r.rect.y += 3
         if Cars_r.rect.y == 700:
