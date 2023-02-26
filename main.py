@@ -45,24 +45,29 @@ class Background(pygame.sprite.Sprite):
 all_sprites = pygame.sprite.Group()
 all_sprites2 = pygame.sprite.Group()
 all_sprites2_r = pygame.sprite.Group()
+all_sprites_gameover = pygame.sprite.Group()
 # создадим спрайт
 sprite = pygame.sprite.Sprite()
 Cars = pygame.sprite.Sprite()
 Cars_r = pygame.sprite.Sprite()
+gameover = pygame.sprite.Sprite()
 # определим его вид
 sprite.image = load_image("car.png")
 a = random.choice(cars)
 Cars.image = load_image(a)
 a_r = random.choice(cars_r)
 Cars_r.image = load_image(a_r)
+gameover.image = load_image("gameover.jpg")
 # и размеры
 Cars.rect = Cars.image.get_rect()
 sprite.rect = sprite.image.get_rect()
 Cars_r.rect = Cars_r.image.get_rect()
+gameover.rect = gameover.image.get_rect()
 # добавим спрайт в группу
 all_sprites2.add(Cars)
 all_sprites.add(sprite)
 all_sprites2_r.add(Cars_r)
+all_sprites_gameover.add(gameover)
 
 r = random.choice([0, 1])
 rr = random.choice([0, 1])
@@ -97,6 +102,7 @@ pygame.time.set_timer(pygame.USEREVENT, 1000)
 font = pygame.font.SysFont('Consolas', 30)
 if __name__ == '__main__':
     running = True
+    over = False
     while running:
         group.draw(window)
         window.fill((0, 0, 0))
@@ -109,7 +115,7 @@ if __name__ == '__main__':
         r = random.choice([0, 1])
         rr = random.choice([0, 1])
         for event in pygame.event.get():
-            if event.type == pygame.USEREVENT:
+            if event.type == pygame.USEREVENT and over == False:
                 counter += 1
                 text = str(counter).rjust(3)
             if event.type == pygame.QUIT:
@@ -126,14 +132,19 @@ if __name__ == '__main__':
                     left = False
         hits_r = pygame.sprite.spritecollide(sprite, all_sprites2_r, False)
         if hits_r:
-            pygame.quit()
+            all_sprites_gameover.draw(window)
+            font = pygame.font.SysFont('Consolas', 100)
+            window.blit(font.render(text, True, ("red")), (400, 550))
+            over = True
         hits = pygame.sprite.spritecollide(sprite, all_sprites2, False)
         if hits:
-            pygame.quit()
-
-        if Cars_r.rect.y != 1024:
+            all_sprites_gameover.draw(window)
+            font = pygame.font.SysFont('Consolas', 100)
+            window.blit(font.render(text, True, ("red")), (400, 550))
+            over = True
+        if Cars_r.rect.y != 1024 and over == False:
             Cars_r.rect.y += 2
-        if Cars_r.rect.y == 1024:
+        if Cars_r.rect.y == 1024 and over == False:
             Cars_r.rect = Cars.image.get_rect()
             a_r = random.choice(cars_r)
             Cars_r.image = load_image(a_r)
@@ -144,9 +155,9 @@ if __name__ == '__main__':
                 Cars_r.rect.x = 800
                 Cars_r.rect.y = -560
 
-        if Cars.rect.y != 1024:
+        if Cars.rect.y != 1024 and over == False:
             Cars.rect.y += 3
-        if Cars.rect.y == 1024:
+        if Cars.rect.y == 1024 and over == False:
             Cars.rect = Cars.image.get_rect()
             a = random.choice(cars)
             Cars.image = load_image(a)
@@ -157,14 +168,14 @@ if __name__ == '__main__':
                 Cars.rect.x = 120
                 Cars.rect.y = -560
             all_sprites2.draw(window)
-        if sprite.rect.x == 850:
+        if sprite.rect.x == 850 and over == False:
             right = False
-        if sprite.rect.x == 70:
+        if sprite.rect.x == 70 and over == False:
             left = False
-        if right is True:
+        if right is True and over == False:
             sprite.rect.x += 3
             all_sprites.update()
-        if left is True:
+        if left is True and over == False:
             sprite.rect.x -= 3
             all_sprites.update()
         all_sprites.update()
