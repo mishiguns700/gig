@@ -124,6 +124,12 @@ if __name__ == '__main__':
                     right = False
                 if event.key == pygame.K_LEFT:
                     left = False
+        hits_r = pygame.sprite.spritecollide(sprite, all_sprites2_r, False)
+        if hits_r:
+            pygame.quit()
+        hits = pygame.sprite.spritecollide(sprite, all_sprites2, False)
+        if hits:
+            pygame.quit()
 
         if Cars_r.rect.y != 1024:
             Cars_r.rect.y += 2
